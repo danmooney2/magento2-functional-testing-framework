@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alr:test-suite xmlns:alr="urn:model.allure.qatools.yandex.ru" start="1552660749382" stop="1552660755404" version="1.4.0">
+  <name>Magento\FunctionalTestingFramework.functional</name>
+  <test-cases>
+    <test-case start="1552660749408" stop="1552660755403" status="passed">
+      <name>AdminLoginTest</name>
+      <title>MAGETWO-71572: Admin should be able to log into the Magento Admin backend</title>
+      <description type="text"><![CDATA[Admin should be able to log into the Magento Admin backend]]></description>
+      <steps>
+        <step start="1552660750589" stop="1552660752872" status="passed">
+          <name>am on page "/admin/admin"</name>
+        </step>
+        <step start="1552660752877" stop="1552660752987" status="passed">
+          <name>fill field "#username","admin"</name>
+        </step>
+        <step start="1552660752990" stop="1552660753076" status="passed">
+          <name>fill field "#login","123123q"</name>
+        </step>
+        <step start="1552660753079" stop="1552660754174" status="passed">
+          <name>click ".actions .action-primary"</name>
+        </step>
+        <step start="1552660754200" stop="1552660755320" status="passed">
+          <name>wait for page load 30</name>
+        </step>
+        <step start="1552660755323" stop="1552660755330" status="passed">
+          <name>close admin notification </name>
+        </step>
+        <step start="1552660755340" stop="1552660755349" status="passed">
+          <name>see in current url "/admin/admin"</name>
+        </step>
+      </steps>
+      <labels>
+        <label name="testId" value="MAGETWO-71572"/>
+        <label name="feature" value="Backend"/>
+        <label name="story" value="Login on the Admin Login page"/>
+        <label name="severity" value="critical"/>
+      </labels>
+      <parameters>
+        <parameter name="AcceptanceTester" value="$I" kind="argument"/>
+      </parameters>
+    </test-case>
+  </test-cases>
+</alr:test-suite>
