@@ -199,7 +199,6 @@ class TestContextExtension extends BaseExtension
      */
     public function afterStep(\Codeception\Event\StepEvent $e)
     {
-        echo 'RETURNING EARLY FROM ' . __METHOD__ . PHP_EOL;
         return;
         $browserLog = $this->getDriver()->webDriver->manage()->getLog("browser");
         if (getenv('ENABLE_BROWSER_LOG') === 'true') {
