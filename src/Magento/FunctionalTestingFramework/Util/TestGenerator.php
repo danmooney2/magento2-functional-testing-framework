@@ -213,6 +213,12 @@ class TestGenerator
             throw new \Exception(sprintf('Could not open test file: "%s"', $exportFilePath));
         }
 
+        $testPhp = preg_replace(
+            '#(.*\$I->(createEntity|deleteEntity|magentoCLI).*)#',
+            '$1' . "\n" . '$I->executeJS("new Date().toString()");' . "\n",
+            $testPhp
+        );
+
         fwrite($file, $testPhp);
         fclose($file);
     }
