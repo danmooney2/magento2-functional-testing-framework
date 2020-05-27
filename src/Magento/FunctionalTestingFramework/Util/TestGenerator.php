@@ -214,7 +214,7 @@ class TestGenerator
         }
 
         $testPhp = preg_replace(
-            '#(.*\$I->(createEntity|deleteEntity|magentoCLI).*)#',
+            '#(.*\$I->(createEntity|deleteEntity|magentoCLI|magentoCron).*)#',
             '$1' . "\n" . '$I->executeJS("new Date().toString()");' . "\n",
             $testPhp
         );
