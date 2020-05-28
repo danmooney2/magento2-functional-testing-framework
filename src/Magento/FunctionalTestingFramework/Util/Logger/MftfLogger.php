@@ -28,7 +28,52 @@ class MftfLogger extends Logger
         if (MftfApplicationConfig::getConfig()->getPhase() !== MftfApplicationConfig::UNIT_TEST_PHASE && $verbose) {
             print ($message . json_encode($context) . "\n");
         }
+        return;
         parent::warning($message, $context);
+    }
+
+    /**
+     * Adds a log record at the INFO level.
+     *
+     * This method allows for compatibility with common interfaces.
+     *
+     * @param  string $message The log message
+     * @param  array  $context The log context
+     * @return bool   Whether the record has been processed
+     */
+    public function info($message, array $context = array())
+    {
+        return;
+    }
+
+    /**
+     * Adds a log record at the DEBUG level.
+     *
+     * This method allows for compatibility with common interfaces.
+     *
+     * @param  string $message The log message
+     * @param  array  $context The log context
+     * @return bool   Whether the record has been processed
+     */
+    public function debug($message, array $context = array())
+    {
+        return;
+        return $this->addRecord(static::DEBUG, $message, $context);
+    }
+
+    /**
+     * Adds a log record at the WARNING level.
+     *
+     * This method allows for compatibility with common interfaces.
+     *
+     * @param  string $message The log message
+     * @param  array  $context The log context
+     * @return bool   Whether the record has been processed
+     */
+    public function warn($message, array $context = array())
+    {
+        return;
+        return $this->addRecord(static::WARNING, $message, $context);
     }
 
     /**
@@ -61,6 +106,7 @@ class MftfLogger extends Logger
      */
     public function notification($message, array $context = [], $verbose = false)
     {
+        return;
         $message = "NOTICE: " . $message;
         // Suppress print during unit testing
         if (MftfApplicationConfig::getConfig()->getPhase() !== MftfApplicationConfig::UNIT_TEST_PHASE && $verbose) {
