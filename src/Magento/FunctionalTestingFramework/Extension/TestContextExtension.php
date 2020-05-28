@@ -7,6 +7,7 @@
 namespace Magento\FunctionalTestingFramework\Extension;
 
 use Codeception\Events;
+use Facebook\WebDriver\Exception\WebDriverException;
 use Magento\FunctionalTestingFramework\Allure\AllureHelper;
 use Magento\FunctionalTestingFramework\DataGenerator\Handlers\PersistedObjectHandler;
 
@@ -185,8 +186,13 @@ class TestContextExtension extends BaseExtension
      */
     public function beforeStep(\Codeception\Event\StepEvent $e)
     {
-        if ($this->pageChanged($e->getStep())) {
-            $this->getDriver()->cleanJsError();
+        try {
+            if ($this->pageChanged($e->getStep())) {
+                $this->getDriver()->cleanJsError();
+            }
+        } catch (WebDriverException $ex) {
+            echo $ex->getMessage(), PHP_EOL, $e->getStep()->toString(), PHP_EOL;
+            $this->getDriver()->_restart();
         }
     }
 
@@ -199,17 +205,21 @@ class TestContextExtension extends BaseExtension
      */
     public function afterStep(\Codeception\Event\StepEvent $e)
     {
-        return;
-        $browserLog = $this->getDriver()->webDriver->manage()->getLog("browser");
-        if (getenv('ENABLE_BROWSER_LOG') === 'true') {
-            foreach (explode(',', getenv('BROWSER_LOG_BLACKLIST')) as $source) {
-                $browserLog = BrowserLogUtil::filterLogsOfType($browserLog, $source);
+        try {
+            $browserLog = $this->getDriver()->webDriver->manage()->getLog("browser");
+            if (getenv('ENABLE_BROWSER_LOG') === 'true') {
+                foreach (explode(',', getenv('BROWSER_LOG_BLACKLIST')) as $source) {
+                    $browserLog = BrowserLogUtil::filterLogsOfType($browserLog, $source);
+                }
+                if (!empty($browserLog)) {
+                    AllureHelper::addAttachmentToCurrentStep(json_encode($browserLog, JSON_PRETTY_PRINT), "Browser Log");
+                }
             }
-            if (!empty($browserLog)) {
-                AllureHelper::addAttachmentToCurrentStep(json_encode($browserLog, JSON_PRETTY_PRINT), "Browser Log");
-            }
+            BrowserLogUtil::logErrors($browserLog, $this->getDriver(), $e);
+        } catch (WebDriverException $ex) {
+            echo $ex->getMessage(), PHP_EOL, $e->getStep()->toString(), PHP_EOL;
+            $this->getDriver()->_restart();
         }
-        BrowserLogUtil::logErrors($browserLog, $this->getDriver(), $e);
     }
 
     /**
