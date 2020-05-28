@@ -1089,7 +1089,7 @@ class MagentoWebDriver extends WebDriver
         $command = array_reduce($cronGroups, function ($command, $cronGroup) {
             $command .= ' --group=' . $cronGroup;
             return $command;
-        }, self::MAGENTO_CRON_COMMAND) . ' &';
+        }, self::MAGENTO_CRON_COMMAND);
         $timeStart = microtime(true);
         $cronResult = $this->magentoCLI($command, $timeout, $arguments);
         $timeEnd = microtime(true);
